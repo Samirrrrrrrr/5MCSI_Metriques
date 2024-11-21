@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from datetime import datetime
 from urllib.request import urlopen
 import json
@@ -52,9 +52,16 @@ def meteo():
 def mongraphique():
     return render_template("graphique.html")
 
-@app.route("/contact/")
-def MaPremiereAPI():
-    return "<h2>Ma page de contact</h2>"
+@app.route("/contact/", methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        nom = request.form['nom']
+        prenom = request.form['prenom']
+        email = request.form['email']
+        message = request.form['message']
+        print(f"Message reçu de {prenom} {nom} ({email}): {message}")
+        return "Votre message a été envoyé avec succès !"
+    return render_template('contact.html')
 
 @app.route('/histogramme/')
 def histogramme():
