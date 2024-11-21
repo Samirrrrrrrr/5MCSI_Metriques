@@ -12,31 +12,6 @@ import json
                                                                                                                                        
 app = Flask(__name__)
 
-@app.route('/extract-minutes/<date_string>')
-def extract_minutes(date_string):
-    date_object = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
-    minutes = date_object.minute
-    return jsonify({'minutes': minutes})
-
-@app.route('/commits/')
-def commits():
-    url = 'https://github.com/Samirrrrrrrr/5MCSI_Metriques/blob/main/templates/commits.html'
-    response = urlopen(url)
-    raw_content = response.read()
-    json_content = json.loads(raw_content.decode('utf-8'))
-
-    minutes_count = {}
-    for commit in json_content:
-        date_string = commit['commit']['author']['date']
-        date_object = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
-        minute = date_object.minute
-        if minute not in minutes_count:
-            minutes_count[minute] = 0
-        minutes_count[minute] += 1
-
-    results = [{'minute': k, 'count': v} for k, v in sorted(minutes_count.items())]
-    return render_template('commits.html', data=results)
-
 @app.route("/contact/")
 def MaPremiereAPI():
     return render_template("contact.html")
