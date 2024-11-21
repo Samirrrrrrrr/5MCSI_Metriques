@@ -1,15 +1,8 @@
-from flask import Flask, render_template_string, render_template, jsonify
-from flask import render_template
-from flask import json
+from flask import Flask, render_template, jsonify
 from datetime import datetime
 from urllib.request import urlopen
-from flask import Flask, jsonify
-from urllib.request import urlopen
-from datetime import datetime
-import sqlite3
 import json
 
-                                                                                                                                       
 app = Flask(__name__)
 
 @app.route("/contact/")
@@ -42,11 +35,6 @@ def meteo():
     # Retourner les données sous forme de JSON
     return jsonify(results=results)
 
-
-@app.route("/contact/")
-def MaPremiereAPI():
-    return "<h2>Ma page de contact</h2>"
-                                                                                                                                       
 @app.route('/')
 def hello_world():
     return render_template('hello.html') #Comm2
