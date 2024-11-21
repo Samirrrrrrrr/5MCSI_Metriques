@@ -28,15 +28,21 @@
         fetch("/tawarano/")
           .then((response) => response.json())
           .then((data) => {
+            // Vérifier la structure des données
+            if (!data.results || data.results.length === 0) {
+              console.error("Aucune donnée disponible.");
+              return;
+            }
+
             // Préparer les données pour Google Charts
             const dataTable = new google.visualization.DataTable();
             dataTable.addColumn("string", "Date");
             dataTable.addColumn("number", "Température (°C)");
 
-            // Transformer les données JSON en un tableau utilisable pour l'histogramme
+            // Transformer les données JSON en un tableau utilisable
             data.results.forEach((entry) => {
-              const date = new Date(entry.Jour * 1000).toLocaleDateString();
-              dataTable.addRow([date, entry["Température (°C)"]]);
+              const date = new Date(entry.Jour * 1000).toLocaleDateString("fr-FR");
+              dataTable.addRow([date, entry.temp]);
             });
 
             // Options de configuration pour l'histogramme
