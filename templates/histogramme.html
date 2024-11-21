@@ -19,6 +19,10 @@
   <body>
     <h1>Histogramme des Températures</h1>
     <div id="chart_div"></div>
+    <div>
+    <button onclick="window.history.back()">Retour</button>
+    </div>
+
     <script>
       google.charts.load("current", { packages: ["corechart"] });
       google.charts.setOnLoadCallback(drawChart);
