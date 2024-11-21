@@ -20,13 +20,11 @@ def extract_minutes(date_string):
 
 @app.route('/commits/')
 def commits():
-    # Récupérer les données de l'API GitHub
     url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
     response = urlopen(url)
     raw_content = response.read()
     json_content = json.loads(raw_content.decode('utf-8'))
 
-    # Extraire les minutes des dates des commits
     minutes_count = {}
     for commit in json_content:
         date_string = commit['commit']['author']['date']
@@ -36,7 +34,6 @@ def commits():
             minutes_count[minute] = 0
         minutes_count[minute] += 1
 
-    # Transformer les données en un format utilisable par le graphique
     results = [{'minute': k, 'count': v} for k, v in sorted(minutes_count.items())]
     return render_template('commits.html', data=results)
 
