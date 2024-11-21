@@ -36,9 +36,5 @@ def commits():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/')
-def home():
-    return "<h1>Bienvenue sur votre projet Flask</h1>"
-
 if __name__ == "__main__":
     app.run(debug=True)
