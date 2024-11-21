@@ -1,46 +1,62 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
     <title>Histogramme des Températures</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 20px;
+        background-color: #f4f4f9;
+      }
+      #chart_div {
+        width: 100%;
+        height: 500px;
+      }
+    </style>
   </head>
   <body>
-    <div id="chart_div" style="width: 100%; height: 500px;"></div>
+    <h1>Histogramme des Températures</h1>
+    <div id="chart_div"></div>
     <script>
-      google.charts.load('current', { packages: ['corechart'] });
+      google.charts.load("current", { packages: ["corechart"] });
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
         // Récupération des données depuis l'API /tawarano/
-        fetch('/tawarano/')
-          .then(response => response.json())
-          .then(data => {
+        fetch("/tawarano/")
+          .then((response) => response.json())
+          .then((data) => {
             // Créer un tableau pour Google Charts
-            var dataTable = new google.visualization.DataTable();
-            dataTable.addColumn('string', 'Date');
-            dataTable.addColumn('number', 'Température (°C)');
-            
+            const dataTable = new google.visualization.DataTable();
+            dataTable.addColumn("string", "Date");
+            dataTable.addColumn("number", "Température (°C)");
+
             // Transformer les données JSON en un tableau pour l'histogramme
-            data.results.forEach(entry => {
-              var date = new Date(entry.Jour * 1000);
-              dataTable.addRow([date.toLocaleDateString(), entry['Température (°C)']]);
+            data.results.forEach((entry) => {
+              const date = new Date(entry.Jour * 1000).toLocaleDateString();
+              dataTable.addRow([date, entry["Température (°C)"]]);
             });
 
             // Options de configuration pour l'histogramme
-            var options = {
-              title: 'Évolution des températures (Tawarano)',
-              hAxis: { title: 'Date' },
-              vAxis: { title: 'Température (°C)' },
-              legend: 'none',
-              backgroundColor: '#f1f8e9'
+            const options = {
+              title: "Évolution des températures (Tawarano)",
+              hAxis: { title: "Date" },
+              vAxis: { title: "Température (°C)" },
+              legend: "none",
+              backgroundColor: "#f1f8e9",
             };
 
             // Dessiner le graphique dans la div #chart_div
-            var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+            const chart = new google.visualization.ColumnChart(
+              document.getElementById("chart_div")
+            );
             chart.draw(dataTable, options);
           })
-          .catch(error => {
-            console.error('Erreur lors de la récupération des données :', error);
+          .catch((error) => {
+            console.error("Erreur lors de la récupération des données :", error);
           });
       }
     </script>
