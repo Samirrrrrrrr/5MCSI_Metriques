@@ -21,6 +21,10 @@
   <body>
     <h1>Graphique des Commits par Minute</h1>
     <div id="chart_div"></div>
+    <div>
+    <button onclick="window.history.back()">Retour</button>
+    </div>
+
     <script>
       google.charts.load('current', { packages: ['corechart'] });
       google.charts.setOnLoadCallback(drawChart);
