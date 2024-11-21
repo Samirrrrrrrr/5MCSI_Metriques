@@ -20,7 +20,7 @@ def extract_minutes(date_string):
 
 @app.route('/commits/')
 def commits():
-    url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
+    url = 'https://github.com/Samirrrrrrrr/5MCSI_Metriques/blob/main/templates/commits.html'
     response = urlopen(url)
     raw_content = response.read()
     json_content = json.loads(raw_content.decode('utf-8'))
