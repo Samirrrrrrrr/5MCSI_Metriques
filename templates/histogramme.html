@@ -8,7 +8,6 @@
       body {
         font-family: Arial, sans-serif;
         margin: 20px;
-        padding: 20px;
         background-color: #f4f4f9;
       }
       #chart_div {
@@ -29,12 +28,12 @@
         fetch("/tawarano/")
           .then((response) => response.json())
           .then((data) => {
-            // Créer un tableau pour Google Charts
+            // Préparer les données pour Google Charts
             const dataTable = new google.visualization.DataTable();
             dataTable.addColumn("string", "Date");
             dataTable.addColumn("number", "Température (°C)");
 
-            // Transformer les données JSON en un tableau pour l'histogramme
+            // Transformer les données JSON en un tableau utilisable pour l'histogramme
             data.results.forEach((entry) => {
               const date = new Date(entry.Jour * 1000).toLocaleDateString();
               dataTable.addRow([date, entry["Température (°C)"]]);
@@ -43,14 +42,14 @@
             // Options de configuration pour l'histogramme
             const options = {
               title: "Évolution des températures (Tawarano)",
-              hAxis: { title: "Date" },
+              hAxis: { title: "Date", slantedText: true, slantedTextAngle: 45 },
               vAxis: { title: "Température (°C)" },
               legend: "none",
               backgroundColor: "#f1f8e9",
             };
 
-            // Dessiner le graphique dans la div #chart_div
-            const chart = new google.visualization.ColumnChart(
+            // Dessiner l'histogramme
+            const chart = new google.visualization.Histogram(
               document.getElementById("chart_div")
             );
             chart.draw(dataTable, options);
